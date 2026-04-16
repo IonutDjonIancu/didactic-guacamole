@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="didactic-guacamole/didactic-guacamole.csproj" />
+  <Project Path="Models/Models.csproj" Id="04ee220a-cafc-4d10-9dea-ebf4578774ff" />
+  <Project Path="Services/Services.csproj" Id="00f593ed-1825-424c-89cd-57b75267f279" />
+</Solution>
