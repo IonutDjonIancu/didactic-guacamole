@@ -8,7 +8,8 @@ namespace Services;
 
 public interface IStockService
 {
-    Task<StockQuote?> GetQuoteAsync(string symbol);
+    Task<StockQuote?> GetQuote(string symbol);
+    Task<List<StockSymbolResult>> SearchSymbols(string query);
 }
 
 public class StockService : IStockService
@@ -22,7 +23,7 @@ public class StockService : IStockService
         _apiKey = configuration["FinnhubApiKey"]!;
     }
 
-    public async Task<StockQuote?> GetQuoteAsync(string symbol)
+    public async Task<StockQuote?> GetQuote(string symbol)
     {
         try
         {
@@ -54,6 +55,35 @@ public class StockService : IStockService
             // TODO: replace with structured logging via App Insights
             Console.WriteLine($"HTTP error fetching quote for symbol {symbol}: {ex.Message}");
             return null;
+        }
+    }
+
+    public async Task<List<StockSymbolResult>> SearchSymbols(string query)
+    {
+        try
+        {
+            var response = await _httpClient.GetFromJsonAsync<FinnhubSymbolSearchResponse>(
+                $"search?q={query}&token={_apiKey}");
+
+            if (response is null) return [];
+
+            return [.. response.Result.Select(r => new StockSymbolResult
+            {
+                Symbol = r.Symbol,
+                DisplaySymbol = r.DisplaySymbol,
+                Description = r.Description,
+                Type = r.Type
+            })];
+        }
+        catch (JsonException ex)
+        {
+            Console.WriteLine($"Deserialization error searching symbols for '{query}': {ex.Message}");
+            return [];
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP error searching symbols for '{query}': {ex.Message}");
+            return [];
         }
     }
 }

@@ -8,7 +8,8 @@ builder.Services.AddHttpClient<IStockService, StockService>(client =>
     client.BaseAddress = new Uri("https://finnhub.io/api/v1/");
 });
 
-
+// once moved to Cosmos DB this becomes AddScoped
+builder.Services.AddSingleton<ITradeService, TradeService>();
 
 
 

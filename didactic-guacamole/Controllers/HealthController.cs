@@ -7,7 +7,7 @@ namespace didactic_guacamole.Controllers;
 public class HealthController : ControllerBase
 {
     [HttpGet("ping")]
-    public async Task<IActionResult> Ping()
+    public IActionResult Ping()
     {
         return Ok("Pong");
     }

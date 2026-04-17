@@ -11,3 +11,11 @@ public class StockQuote
     public decimal Change { get; set; }
     public decimal PercentChange { get; set; }
 }
+
+public class StockSymbolResult
+{
+    public string Symbol { get; set; } = string.Empty;
+    public string DisplaySymbol { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty;
+}
